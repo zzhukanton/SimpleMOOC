@@ -8,8 +8,6 @@ namespace GeoCourse.Client.Models
 
 		public string Text { get; set; }
 
-		public int Points { get; set; }
-
 		public int? TestId { get; set; }
 
 		public virtual Test Test { get; set; }

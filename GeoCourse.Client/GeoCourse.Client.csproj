@@ -203,6 +203,10 @@
     <Compile Include="Migrations\201805121504291_addCustomFieldsToIntitialDb.Designer.cs">
       <DependentUpon>201805121504291_addCustomFieldsToIntitialDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805131141011_AddTestTryCount.cs" />
+    <Compile Include="Migrations\201805131141011_AddTestTryCount.Designer.cs">
+      <DependentUpon>201805131141011_AddTestTryCount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Answer.cs" />
@@ -295,6 +299,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805121504291_addCustomFieldsToIntitialDb.resx">
       <DependentUpon>201805121504291_addCustomFieldsToIntitialDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805131141011_AddTestTryCount.resx">
+      <DependentUpon>201805131141011_AddTestTryCount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

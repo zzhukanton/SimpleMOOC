@@ -14,6 +14,8 @@
 
 		public int PointCount { get; set; }
 
-		public bool IsLocked { get; set; }
+		public int CurrentTryCount { get; set; }
+
+		public int MaxTryCount { get; set; }
 	}
 }
