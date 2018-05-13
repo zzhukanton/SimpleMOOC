@@ -1,9 +1,11 @@
-﻿@{
-    ViewBag.Title = "Главная";
+﻿
+@{
+    ViewBag.Title = "All";
 }
 
+<h2>Все курсы</h2>
 <div class="row">
-	@foreach (var course in ViewBag.PopularCourses)
+	@foreach (var course in ViewBag.All)
 	{
 		<div>
 			@Html.ActionLink(course.Title as string, "Course", "Course", new { id = course.CourseId }, new { })
@@ -11,3 +13,4 @@
 		</div>
 	}
 </div>
+

@@ -19,7 +19,7 @@ namespace GeoCourse.Client.Models
 
 		public int CurrentPoints { get; set; }
 
-		public DateTime DateCompleted { get; set; }
+		public DateTime? DateCompleted { get; set; }
 
 		public virtual ICollection<TestResult> TestResults { get; set; }
 	}
