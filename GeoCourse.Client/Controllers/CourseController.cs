@@ -39,6 +39,7 @@ namespace GeoCourse.Client.Controllers
 					User_Id = Guid.Parse(User.Identity.GetUserId())
 				};
 				ViewBag.IsEnrolled = _context.UserCourses.Any(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id);
+				//ViewBag.
 				return View(model);
 			}
 			
@@ -62,7 +63,7 @@ namespace GeoCourse.Client.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Chapter(string id)
+		public ActionResult Chapter(int id)
 		{
 			var chapter = _context.Tests.Find(id);
 			ViewBag.Chapter = chapter;

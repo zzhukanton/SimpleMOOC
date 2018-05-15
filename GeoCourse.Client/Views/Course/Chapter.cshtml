@@ -6,3 +6,8 @@
 <h2>@ViewBag.Chapter.Chapter</h2>
 <p>@ViewBag.Chapter.Description</p>
 
+<div>
+	<p>Какой-то пдф документ тут!</p>
+</div>
+
+@Html.ActionLink("Пройти тест", "Test", "Test", new { id = (int)ViewBag.Chapter.TestId }, new { })

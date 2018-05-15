@@ -11,17 +11,17 @@
 @if (Request.IsAuthenticated)
 {
 	<ul>
-	@foreach (var chapter in ViewBag.CourseMap)
-	{
-		if (ViewBag.IsEnrolled)
+		@foreach (var chapter in ViewBag.CourseMap)
 		{
-			<li>@Html.ActionLink(chapter.Chapter as string, "Chapter", "Course", new { id = chapter.TestId }, new { })</li>
+			if (ViewBag.IsEnrolled)
+			{
+				<li>@Html.ActionLink(chapter.Chapter as string, "Chapter", "Course", new { id = chapter.TestId }, new { })</li>
+			}
+			else
+			{
+				<li>@chapter.Chapter</li>
+			}
 		}
-		else
-		{
-			<li>@chapter.Chapter</li>
-		}
-	}
 	</ul>
 	if (!ViewBag.IsEnrolled)
 	{
@@ -38,10 +38,12 @@
 	else
 	{
 		<p>Чтобы продолжить обучение, выберите тему из списка.</p>
+		<div>
+			<h3>Текущий прогресс:</h3>
+		</div>
 	}
 }
 else
 {
 	<p>Чтобы увидеть карту курса и зарегистрироваться, вам нужно @Html.ActionLink("зарегистрироваться", "Register", "Account") или @Html.ActionLink("войти", "Login", "Account").</p>
 }
-
