@@ -56,7 +56,17 @@ namespace GeoCourse.Client.Controllers
 				IsFinished = false,
 				CurrentPoints = 0
 			};
-			_context.UserCourses.Add(enrollment);
+			var newUserCourseId = _context.UserCourses.Add(enrollment).UserCourseId;
+			var tests = _context.Tests.Where(t => t.CourseId == model.CourseId);
+
+			tests.ToList().ForEach((test) => _context.TestResults.Add(new TestResult
+			{
+				CurrentTryCount = 0,
+				MaxTryCount = 2,
+				TestId = test.TestId,
+				UserCourseId = newUserCourseId
+			}));
+
 			_context.SaveChanges();
 
 			return View("Course");

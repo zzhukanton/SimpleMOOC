@@ -11,6 +11,7 @@ namespace GeoCourse.Client.Controllers
 	[Authorize]
     public class TestController : Controller
     {
+		private const int QUESTION_COUNT_PER_TEST = 6;
 		public ApplicationDbContext _context;
 
 		public TestController()
@@ -53,9 +54,22 @@ namespace GeoCourse.Client.Controllers
 		[HttpPost]
 		public ActionResult Verify(TestViewModel model)
 		{
+			var selectedAnswerIds = model.Questions.Select(q => q.SelectedAnswer);
+			int correctAnswerCount = 0;
+			foreach (var answerId in selectedAnswerIds)
+			{
+				var answer = _context.Answers.Find(answerId);
+				if (answer.IsCorrect)
+					correctAnswerCount++;
+			}
+
+			//var answers = _context.Answers.Where(a => model.Questions.Select(q => q.SelectedAnswer).Contains(a.AnswerId)).AsEnumerable();
+			ViewBag.AnswerCount = QUESTION_COUNT_PER_TEST;
+			ViewBag.CorrectAnswerCount = correctAnswerCount;
 
 
-			return View("Test");
+
+			return View();
 		}
     }
 }
