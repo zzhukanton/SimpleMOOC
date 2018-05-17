@@ -40,6 +40,11 @@
 		<p>Чтобы продолжить обучение, выберите тему из списка.</p>
 		<div>
 			<h3>Текущий прогресс:</h3>
+			<!--Probably make links to start test page-->
+			@for (int i = 0; i < ViewBag.TestResults.Count; i++)
+			{
+				<p>@ViewBag.CourseMap[i].Chapter - @ViewBag.TestResults[i].PointCount</p>
+			}
 		</div>
 	}
 }

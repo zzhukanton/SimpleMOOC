@@ -32,13 +32,16 @@ namespace GeoCourse.Client.Controllers
 
 			if (Request.IsAuthenticated)
 			{
-				ViewBag.CourseMap = _context.Tests.Where(t => t.CourseId == course.CourseId).AsQueryable();
+				ViewBag.CourseMap = _context.Tests.Where(t => t.CourseId == course.CourseId).AsQueryable().ToList();
 				var model = new EnrollViewModel()
 				{
 					CourseId = course.CourseId,
 					User_Id = Guid.Parse(User.Identity.GetUserId())
 				};
 				ViewBag.IsEnrolled = _context.UserCourses.Any(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id);
+				var testIds = _context.Tests.Where(t => t.CourseId == course.CourseId).Select(t => t.TestId).ToList();
+				ViewBag.TestResults = _context.TestResults.Where(tr => testIds.Contains(tr.TestId.Value)).ToList();
+
 				//ViewBag.
 				return View(model);
 			}
@@ -76,6 +79,11 @@ namespace GeoCourse.Client.Controllers
 		public ActionResult Chapter(int id)
 		{
 			var chapter = _context.Tests.Find(id);
+			var userId = Guid.Parse(User.Identity.GetUserId());
+			var userCourseId = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == chapter.CourseId && uc.UserId == userId).UserCourseId;
+			var testResult = _context.TestResults.FirstOrDefault(tr => tr.TestId == id && tr.UserCourseId == userCourseId);
+
+			ViewBag.LatestTestResult = testResult;
 			ViewBag.Chapter = chapter;
 
 			return View();

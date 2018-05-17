@@ -3,5 +3,16 @@
     ViewBag.Title = "Verify";
 }
 
-<h2>Результат: @ViewBag.CorrectAnswerCount / @ViewBag.AnswerCount</h2>
+<h2>Результат: @ViewBag.Percent %</h2>
+<h3>Вы ответили правильно на @ViewBag.CorrectAnswerCount вопросов из @ViewBag.AnswerCount</h3>
+
+<h3>Вопросы, на которые были даны неправильные ответы:</h3>
+
+<ul>
+	@foreach (var question in ViewBag.FailedQuestions)
+	{
+		<li>@question</li>
+	}
+</ul>
+
 
