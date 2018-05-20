@@ -29,27 +29,47 @@ namespace GeoCourse.Client.Controllers
 		[HttpGet]
 		public ActionResult Test(int id)
 		{
-			ViewBag.Title = _context.Tests.Find(id).Chapter;
-			var questions = _context.Questions
+			var test = _context.Tests.Find(id);
+			ViewBag.Title = test.Chapter;
+
+			// probably simplify later
+			var courseId = test.CourseId;
+			var userId = Guid.Parse(User.Identity.GetUserId());
+			var userCourse = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == courseId && uc.UserId == userId);
+			var testResult = _context.TestResults.FirstOrDefault(tr => tr.TestId == test.TestId && tr.UserCourseId == userCourse.UserCourseId);
+
+			if (testResult.CurrentTryCount >= testResult.MaxTryCount)
+			{
+				ViewBag.Blocked = true;
+				return View();
+			}
+			else
+			{
+				var questions = _context.Questions
 				.Where(q => q.TestId == id)
-				.Select(q => new QuestionViewModel() {
+				.Select(q => new QuestionViewModel()
+				{
 					QuestionId = q.QuestionId,
 					Title = q.Text,
 					Answers = _context.Answers
 						.Where(a => a.QuestionId == q.QuestionId)
-						.Select(a => new AnswerViewModel() {
+						.Select(a => new AnswerViewModel()
+						{
 							AnswerId = a.AnswerId,
 							Title = a.Title
 						})
 						.AsEnumerable()
 				}).ToList();
-			var model = new TestViewModel()
-			{
-				TestId = id,
-				Questions = questions
-			};
+				var model = new TestViewModel()
+				{
+					TestId = id,
+					Questions = questions
+				};
+				ViewBag.Blocked = false;
 
-			return View(model);
+				return View(model);
+			}
+			
 		}
 
 		[HttpPost]
