@@ -93,6 +93,7 @@ namespace GeoCourse.Client.Controllers
 			ViewBag.CorrectAnswerCount = correctAnswerCount;
 			ViewBag.Percent = ((double)correctAnswerCount / QUESTION_COUNT_PER_TEST) * 100;
 			ViewBag.FailedQuestions = failedQuestions;
+			ViewBag.TestId = model.TestId;
 
 			var courseId = _context.Tests.Find(model.TestId).CourseId;
 			var userId = Guid.Parse(User.Identity.GetUserId());
@@ -111,6 +112,9 @@ namespace GeoCourse.Client.Controllers
 			_context.Entry(userCourse).State = System.Data.Entity.EntityState.Modified;
 
 			_context.SaveChanges();
+
+			ViewBag.MaxTryReached = testResult.CurrentTryCount >= testResult.MaxTryCount;
+			ViewBag.CourseId = courseId;
 
 			return View();
 		}
