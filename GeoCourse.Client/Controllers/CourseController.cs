@@ -45,10 +45,11 @@ namespace GeoCourse.Client.Controllers
 				ViewBag.CurrentPoints = testResults.Sum(tr => tr.PointCount);
 				ViewBag.MaxPoints = testResults.Count() * TestController.QUESTION_COUNT_PER_TEST;
 				ViewBag.HaveTestSkipped = testResults.Any(tr => tr.CurrentTryCount == 0);
-				ViewBag.UserCourseId = testResults.FirstOrDefault().UserCourseId;
+				var userCourseId = testResults.FirstOrDefault().UserCourseId;
+				ViewBag.UserCourseId = userCourseId;
 				ViewBag.IsCourseFinished = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id).IsFinished;
+				ViewBag.FinalTestResultId = _context.TestResults.FirstOrDefault(tr => tr.UserCourseId == userCourseId && tr.TestId == null).TestResultId;
 
-				//ViewBag.
 				return View(model);
 			}
 			
@@ -81,6 +82,7 @@ namespace GeoCourse.Client.Controllers
 			return View("Course");
 		}
 
+		[Authorize]
 		[HttpGet]
 		public ActionResult Chapter(int id)
 		{
@@ -96,6 +98,7 @@ namespace GeoCourse.Client.Controllers
 			return View();
 		}
 
+		[Authorize]
 		[HttpGet]
 		public ActionResult FinishCourse(int id)
 		{

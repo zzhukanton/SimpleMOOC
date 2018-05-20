@@ -293,6 +293,7 @@
     <Content Include="Views\Test\Test.cshtml" />
     <Content Include="Views\Test\Verify.cshtml" />
     <Content Include="Views\Course\FinishCourse.cshtml" />
+    <Content Include="Views\Test\FinalTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

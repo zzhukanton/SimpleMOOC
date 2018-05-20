@@ -120,11 +120,18 @@ namespace GeoCourse.Client.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult FinalTest()
+		public ActionResult FinalTest(int id)
 		{
-
+			var userCourse = _context.UserCourses.Find(_context.TestResults.Find(id).UserCourseId);
+			ViewBag.CourseTitle = _context.Courses.Find(userCourse.CourseId).Title;
 
 			return View();
 		}
-    }
+
+		[HttpPost]
+		public ActionResult VerifyFinalTest(TestViewModel model)
+		{
+			return View();
+		}
+	}
 }
