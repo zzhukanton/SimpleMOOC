@@ -1,0 +1,18 @@
+﻿
+@{
+	ViewBag.Title = "FinalTestResult";
+}
+
+<h2>Финальный тест по курсу @ViewBag.CourseTitle завершен.</h2>
+<h3>Результат финального теста: @ViewBag.Correct / @ViewBag.All (@((double)ViewBag.Correct/ViewBag.All * 100)%)</h3>
+
+<h3>Общая статистика по курсу:</h3>
+@for (int i = 0; i < ViewBag.Tests.Count; i++)
+{
+	<p>@ViewBag.Tests[i].Chapter - @ViewBag.TestResults[i].PointCount / 5 (@((double)ViewBag.TestResults[i].PointCount/5 * 100)%)</p>
+}
+
+<h2>Итоговая оценка курса: @ViewBag.FinalPercentage %</h2>
+
+@Html.ActionLink("Вернуться на главную", "Index", "Home")
+

@@ -24,43 +24,52 @@
 			}
 		}
 	</ul>
-	if (!ViewBag.IsEnrolled)
+
+	if (ViewBag.CompletelyFinished)
 	{
-		<div>
-			@using (Html.BeginForm("Enroll", "Course", FormMethod.Post))
-			{
-				@Html.AntiForgeryToken()
-				@Html.HiddenFor(c => c.CourseId)
-				@Html.HiddenFor(c => c.User_Id)
-				<input type="submit" value="Зарегистрироваться на курс" />
-			}
-		</div>
+		<p>Вы уже завершили данный курс!</p>
 	}
 	else
 	{
-		<p>Чтобы продолжить обучение, выберите тему из списка.</p>
-		<div>
-			<h3>Текущий прогресс: @ViewBag.CurrentPoints / @ViewBag.MaxPoints</h3>
-			<!--Probably make links to start test page-->
-			@for (int i = 0; i < ViewBag.TestResults.Count; i++)
-			{
-				<p>@ViewBag.CourseMap[i].Chapter - @ViewBag.TestResults[i].PointCount</p>
-			}
-		</div>
-
-		if (ViewBag.IsCourseFinished)
+		if (!ViewBag.IsEnrolled)
 		{
-			@Html.ActionLink("Пройти финальный тест", "FinalTest", "Test", new { id = (int)ViewBag.FinalTestResultId }, new { })
+			<div>
+				@using (Html.BeginForm("Enroll", "Course", FormMethod.Post))
+				{
+					@Html.AntiForgeryToken()
+					@Html.HiddenFor(c => c.CourseId)
+					@Html.HiddenFor(c => c.User_Id)
+					<input type="submit" value="Зарегистрироваться на курс" />
+				}
+			</div>
 		}
 		else
 		{
-			if (!ViewBag.HaveTestSkipped)
+			<p>Чтобы продолжить обучение, выберите тему из списка.</p>
+			<div>
+				<h3>Текущий прогресс: @ViewBag.CurrentPoints / @ViewBag.MaxPoints</h3>
+				<!--Probably make links to start test page-->
+				@for (int i = 0; i < ViewBag.TestResults.Count; i++)
+				{
+					<p>@ViewBag.CourseMap[i].Chapter - @ViewBag.TestResults[i].PointCount</p>
+				}
+			</div>
+
+			if (ViewBag.IsCourseFinished)
 			{
-				<h4>Завершить курс</h4>
-				@Html.ActionLink("Завершить", "FinishCourse", "Course", new { id = (int)ViewBag.UserCourseId }, new { })
+				@Html.ActionLink("Пройти финальный тест", "FinalTest", "Test", new { id = (int)ViewBag.FinalTestResultId }, new { })
+			}
+			else
+			{
+				if (!ViewBag.HaveTestSkipped)
+				{
+					<h4>Завершить курс</h4>
+					@Html.ActionLink("Завершить", "FinishCourse", "Course", new { id = (int)ViewBag.UserCourseId }, new { })
+				}
 			}
 		}
 	}
+
 }
 else
 {

@@ -47,6 +47,8 @@ namespace GeoCourse.Client.Controllers
 				ViewBag.HaveTestSkipped = testResults.Any(tr => tr.CurrentTryCount == 0);
 				var userCourseId = testResults.FirstOrDefault().UserCourseId;
 				ViewBag.UserCourseId = userCourseId;
+				//ViewBag.FinalScore = _context.UserCourses.Find(userCourseId).
+				ViewBag.CompletelyFinished = _context.UserCourses.Find(userCourseId).DateCompleted != null;
 				ViewBag.IsCourseFinished = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id).IsFinished;
 				ViewBag.FinalTestResultId = _context.TestResults.FirstOrDefault(tr => tr.UserCourseId == userCourseId && tr.TestId == null).TestResultId;
 

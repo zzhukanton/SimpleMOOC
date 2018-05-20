@@ -125,13 +125,69 @@ namespace GeoCourse.Client.Controllers
 			var userCourse = _context.UserCourses.Find(_context.TestResults.Find(id).UserCourseId);
 			ViewBag.CourseTitle = _context.Courses.Find(userCourse.CourseId).Title;
 
-			return View();
+			var questions = _context.Tests.Where(t => t.CourseId == userCourse.CourseId)
+				.SelectMany(t => _context.Questions.Where(q => q.TestId == t.TestId).Take(3).ToList()).ToList();
+
+			var testViewModel = new TestViewModel()
+			{
+				Questions = questions.Select(q => new QuestionViewModel()
+				{
+					Answers = q.Answers.Select(a => new AnswerViewModel()
+					{
+						AnswerId = a.AnswerId,
+						Title = a.Title
+					}),
+					QuestionId = q.QuestionId,
+					Title = q.Text
+				}).ToList()
+			};
+
+			return View(testViewModel);
 		}
 
 		[HttpPost]
 		public ActionResult VerifyFinalTest(TestViewModel model)
 		{
-			return View();
+			var selectedAnswerIds = model.Questions.Select(q => q.SelectedAnswer);
+			int correctAnswerCount = 0;
+			var failedQuestions = new List<string>();
+
+			foreach (var answerId in selectedAnswerIds)
+			{
+				var answer = _context.Answers.Find(answerId);
+				if (answer.IsCorrect)
+					correctAnswerCount++;
+				else
+					failedQuestions.Add(_context.Questions.Find(answer.QuestionId).Text);
+			}
+
+			var anyQuestionId = _context.Answers.Find(selectedAnswerIds.FirstOrDefault()).QuestionId;
+
+			var courseId = _context.Tests.Find(_context.Questions.Find(anyQuestionId).TestId).CourseId;
+			var course = _context.Courses.Find(courseId);
+			ViewBag.CourseTitle = course.Title;
+
+			var userId = Guid.Parse(User.Identity.GetUserId());
+			var userCourse = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == course.CourseId && uc.UserId == userId);
+			var testResult = _context.TestResults.FirstOrDefault(tr => tr.TestId == null && tr.UserCourseId == userCourse.UserCourseId);
+
+			testResult.PointCount = correctAnswerCount;
+			_context.Entry(testResult).State = System.Data.Entity.EntityState.Modified;
+			userCourse.DateCompleted = DateTime.Now;
+
+			_context.Entry(userCourse).State = System.Data.Entity.EntityState.Modified;
+			_context.SaveChanges();
+
+			ViewBag.Correct = correctAnswerCount;
+			var all = selectedAnswerIds.Count();
+			ViewBag.All = all;
+			var testResults = _context.TestResults.Where(tr => tr.UserCourseId == userCourse.UserCourseId && tr.TestId != null).ToList();
+			var testResultsScore = (double)testResults.Sum(tr => tr.PointCount) / (testResults.Count * 5);
+			ViewBag.TestResults = testResults;
+			ViewBag.Tests = _context.Tests.Where(t => t.CourseId == course.CourseId).ToList();
+			ViewBag.FinalPercentage = (0.6 * correctAnswerCount / all + 0.4 * testResultsScore) * 100;
+
+			return View("FinalTestResult");
 		}
 	}
 }
