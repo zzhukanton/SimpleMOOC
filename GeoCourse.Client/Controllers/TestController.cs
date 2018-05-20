@@ -12,7 +12,8 @@ namespace GeoCourse.Client.Controllers
 	[Authorize]
     public class TestController : Controller
     {
-		private const int QUESTION_COUNT_PER_TEST = 5;
+		// 7 questions
+		public const int QUESTION_COUNT_PER_TEST = 5;
 		public ApplicationDbContext _context;
 
 		public TestController()
@@ -59,7 +60,7 @@ namespace GeoCourse.Client.Controllers
 							Title = a.Title
 						})
 						.AsEnumerable()
-				}).ToList();
+				}).Take(5).ToList();
 				var model = new TestViewModel()
 				{
 					TestId = id,
@@ -102,10 +103,11 @@ namespace GeoCourse.Client.Controllers
 			testResult.CurrentTryCount++;
 			if (testResult.PointCount < correctAnswerCount)
 			{
+				userCourse.CurrentPoints -= testResult.PointCount;
 				testResult.PointCount = correctAnswerCount;
+				userCourse.CurrentPoints += correctAnswerCount;
 			} 
 			_context.Entry(testResult).State = System.Data.Entity.EntityState.Modified;
-			userCourse.CurrentPoints += correctAnswerCount;
 			_context.Entry(userCourse).State = System.Data.Entity.EntityState.Modified;
 
 			_context.SaveChanges();

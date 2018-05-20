@@ -40,7 +40,12 @@ namespace GeoCourse.Client.Controllers
 				};
 				ViewBag.IsEnrolled = _context.UserCourses.Any(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id);
 				var testIds = _context.Tests.Where(t => t.CourseId == course.CourseId).Select(t => t.TestId).ToList();
-				ViewBag.TestResults = _context.TestResults.Where(tr => testIds.Contains(tr.TestId.Value)).ToList();
+				var testResults = _context.TestResults.Where(tr => testIds.Contains(tr.TestId.Value)).ToList();
+				ViewBag.TestResults = testResults;
+				ViewBag.CurrentPoints = testResults.Sum(tr => tr.PointCount);
+				ViewBag.MaxPoints = testResults.Count() * TestController.QUESTION_COUNT_PER_TEST;
+				ViewBag.HaveTestSkipped = testResults.Any(tr => tr.CurrentTryCount == 0);
+				ViewBag.UserCourseId = testResults.FirstOrDefault().UserCourseId;
 
 				//ViewBag.
 				return View(model);
@@ -86,6 +91,23 @@ namespace GeoCourse.Client.Controllers
 			ViewBag.LatestTestResult = testResult;
 			ViewBag.Chapter = chapter;
 
+			return View();
+		}
+
+		[HttpGet]
+		public ActionResult FinishCourse(int id)
+		{
+			var userCourse = _context.UserCourses.Find(id);
+			ViewBag.CourseName = _context.Courses.Find(userCourse.CourseId).Title;
+			ViewBag.CurrentPoints = userCourse.CurrentPoints;
+			ViewBag.MaxPoints = TestController.QUESTION_COUNT_PER_TEST * _context.Tests.Where(t => t.CourseId == userCourse.CourseId).Count();
+
+			return View();
+		}
+
+		[HttpPost]
+		public ActionResult FinishCourse()
+		{
 			return View();
 		}
     }
