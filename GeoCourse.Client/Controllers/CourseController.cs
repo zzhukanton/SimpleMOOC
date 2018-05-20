@@ -46,6 +46,7 @@ namespace GeoCourse.Client.Controllers
 				ViewBag.MaxPoints = testResults.Count() * TestController.QUESTION_COUNT_PER_TEST;
 				ViewBag.HaveTestSkipped = testResults.Any(tr => tr.CurrentTryCount == 0);
 				ViewBag.UserCourseId = testResults.FirstOrDefault().UserCourseId;
+				ViewBag.IsCourseFinished = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id).IsFinished;
 
 				//ViewBag.
 				return View(model);
@@ -85,9 +86,10 @@ namespace GeoCourse.Client.Controllers
 		{
 			var chapter = _context.Tests.Find(id);
 			var userId = Guid.Parse(User.Identity.GetUserId());
-			var userCourseId = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == chapter.CourseId && uc.UserId == userId).UserCourseId;
-			var testResult = _context.TestResults.FirstOrDefault(tr => tr.TestId == id && tr.UserCourseId == userCourseId);
+			var userCourse = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == chapter.CourseId && uc.UserId == userId);
+			var testResult = _context.TestResults.FirstOrDefault(tr => tr.TestId == id && tr.UserCourseId == userCourse.UserCourseId);
 
+			ViewBag.IsCourseFinished = userCourse.IsFinished;
 			ViewBag.LatestTestResult = testResult;
 			ViewBag.Chapter = chapter;
 
@@ -102,13 +104,34 @@ namespace GeoCourse.Client.Controllers
 			ViewBag.CurrentPoints = userCourse.CurrentPoints;
 			ViewBag.MaxPoints = TestController.QUESTION_COUNT_PER_TEST * _context.Tests.Where(t => t.CourseId == userCourse.CourseId).Count();
 
-			return View();
+			var model = new FinishCourseViewModel()
+			{
+				UserCourseId = userCourse.UserCourseId
+			};
+
+			return View(model);
 		}
 
 		[HttpPost]
-		public ActionResult FinishCourse()
+		public ActionResult FinishCourse(FinishCourseViewModel model)
 		{
-			return View();
+			// add default test result with null testId
+			var defaultFinalTestResult = new TestResult()
+			{
+				CurrentTryCount = 0,
+				MaxTryCount = 1,
+				UserCourseId = model.UserCourseId
+			};
+			_context.TestResults.Add(defaultFinalTestResult);
+
+			// mark user course as finished
+			var userCourse = _context.UserCourses.Find(model.UserCourseId);
+			userCourse.IsFinished = true;
+			_context.Entry(userCourse).State = System.Data.Entity.EntityState.Modified;
+
+			_context.SaveChanges();
+
+			return RedirectToAction("Course", new { id = userCourse.CourseId });
 		}
     }
 }

@@ -15,6 +15,7 @@
 		{
 			if (ViewBag.IsEnrolled)
 			{
+
 				<li>@Html.ActionLink(chapter.Chapter as string, "Chapter", "Course", new { id = chapter.TestId }, new { })</li>
 			}
 			else
@@ -47,10 +48,17 @@
 			}
 		</div>
 
-		if (!ViewBag.HaveTestSkipped)
+		if (ViewBag.IsCourseFinished)
 		{
-			<h4>Завершить курс</h4>
-			@Html.ActionLink("Завершить", "FinishCourse", "Course", new { id = (int)ViewBag.UserCourseId }, new { })
+			@Html.ActionLink("Пройти финальный тест", "FinalTest", "Test")
+		}
+		else
+		{
+			if (!ViewBag.HaveTestSkipped)
+			{
+				<h4>Завершить курс</h4>
+				@Html.ActionLink("Завершить", "FinishCourse", "Course", new { id = (int)ViewBag.UserCourseId }, new { })
+			}
 		}
 	}
 }

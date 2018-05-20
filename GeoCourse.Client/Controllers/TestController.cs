@@ -118,5 +118,13 @@ namespace GeoCourse.Client.Controllers
 
 			return View();
 		}
+
+		[HttpGet]
+		public ActionResult FinalTest()
+		{
+
+
+			return View();
+		}
     }
 }

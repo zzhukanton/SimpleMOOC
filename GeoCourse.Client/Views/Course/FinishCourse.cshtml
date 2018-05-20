@@ -1,8 +1,14 @@
-﻿
+﻿@model GeoCourse.Client.ViewModels.FinishCourseViewModel
 @{
     ViewBag.Title = "FinishCourse";
 }
 
 <h2>Вы уверены, что хотите завершить курс @ViewBag.CourseName?</h2>
 <h3>Ваш текущий прогресс: @ViewBag.CurrentPoints / @ViewBag.MaxPoints</h3>
+@using (Html.BeginForm("FinishCourse", "Course", FormMethod.Post))
+{
+	@Html.HiddenFor(m => m.UserCourseId)
+	
+	<input type="submit" value="Завершить курс" class="btn btn-default"/>
+}
 

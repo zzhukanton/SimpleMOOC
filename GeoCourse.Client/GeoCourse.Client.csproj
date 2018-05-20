@@ -227,6 +227,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\EnrollViewModel.cs" />
+    <Compile Include="ViewModels\FinishCourseViewModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\TestViewModel.cs" />
   </ItemGroup>

@@ -1,6 +1,8 @@
 ﻿
 @{
-	ViewBag.Title = "Chapter";
+				/**/
+
+				ViewBag.Title = "Chapter";
 }
 
 <h2>@ViewBag.Chapter.Chapter</h2>
@@ -10,18 +12,26 @@
 	<p>Какой-то пдф документ тут!</p>
 </div>
 
-@if (ViewBag.LatestTestResult.CurrentTryCount == 0)
+@if (ViewBag.IsCourseFinished)
 {
-	<p>Вы еще не проходили этот тест. Нажмите "Пройти тест" чтобы начать.</p>
-	@Html.ActionLink("Пройти тест", "Test", "Test", new { id = (int)ViewBag.Chapter.TestId }, new { })
-}
-else if (ViewBag.LatestTestResult.CurrentTryCount == 1)
-{
-	<p>Ваш предыдущий результат: @ViewBag.LatestTestResult.PointCount правильных ответов. Чтобы пройти тест еще раз, нажмите на "Пройти тест".</p>
-	@Html.ActionLink("Пройти тест", "Test", "Test", new { id = (int)ViewBag.Chapter.TestId }, new { })
+	<p>К сожалению, вы уже не можете проходить этот тест, поскольку курс уже завершен. Чтобы пройти финальный тест, на странице курса перейдите по ссылке на финальный тест. Помните, что на финальный тест дается только одна попытка сдачи.</p>
 }
 else
 {
-	<p>Вы исчерпали лимит попыток сдачи данного теста. Ваш результат: @ViewBag.LatestTestResult.PointCount правильных ответов.</p>
+	if (ViewBag.LatestTestResult.CurrentTryCount == 0)
+	{
+		<p>Вы еще не проходили этот тест. Нажмите "Пройти тест" чтобы начать.</p>
+		@Html.ActionLink("Пройти тест", "Test", "Test", new { id = (int)ViewBag.Chapter.TestId }, new { })
+	}
+	else if (ViewBag.LatestTestResult.CurrentTryCount == 1)
+	{
+		<p>Ваш предыдущий результат: @ViewBag.LatestTestResult.PointCount правильных ответов. Чтобы пройти тест еще раз, нажмите на "Пройти тест".</p>
+		@Html.ActionLink("Пройти тест", "Test", "Test", new { id = (int)ViewBag.Chapter.TestId }, new { })
+	}
+	else
+	{
+		<p>Вы исчерпали лимит попыток сдачи данного теста. Ваш результат: @ViewBag.LatestTestResult.PointCount правильных ответов.</p>
+	}
+
 }
 
