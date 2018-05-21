@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace GeoCourse.Client.Controllers
 {
@@ -23,6 +24,12 @@ namespace GeoCourse.Client.Controllers
         {
             return View();
         }
+
+		public FileStreamResult LoadPdf()
+		{
+			FileStream fs = new FileStream(@"E:\PVS\PVS\plc\Startup.pdf", FileMode.Open, FileAccess.Read);
+			return File(fs, "application/pdf");
+		}
 
 		[HttpGet]
 		public ActionResult Course(int id)

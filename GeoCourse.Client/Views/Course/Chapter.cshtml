@@ -1,15 +1,13 @@
 ﻿
 @{
-				/**/
-
-				ViewBag.Title = "Chapter";
+	ViewBag.Title = "Chapter";
 }
 
 <h2>@ViewBag.Chapter.Chapter</h2>
 <p>@ViewBag.Chapter.Description</p>
 
 <div>
-	<p>Какой-то пдф документ тут!</p>
+	<iframe src="@Url.Action("LoadPdf")" type="application/pdf" width="1000" height="500"></iframe>
 </div>
 
 @if (ViewBag.IsCourseFinished)
