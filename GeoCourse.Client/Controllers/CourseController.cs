@@ -11,7 +11,7 @@ namespace GeoCourse.Client.Controllers
 {
     public class CourseController : Controller
     {
-		public ApplicationDbContext _context;
+		private ApplicationDbContext _context;
 
 		public CourseController()
 		{
@@ -49,8 +49,8 @@ namespace GeoCourse.Client.Controllers
 				ViewBag.UserCourseId = userCourseId;
 				//ViewBag.FinalScore = _context.UserCourses.Find(userCourseId).
 				ViewBag.CompletelyFinished = _context.UserCourses.Find(userCourseId).DateCompleted != null;
-				ViewBag.IsCourseFinished = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id).IsFinished;
-				ViewBag.FinalTestResultId = _context.TestResults.FirstOrDefault(tr => tr.UserCourseId == userCourseId && tr.TestId == null).TestResultId;
+				ViewBag.IsCourseFinished = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id)?.IsFinished;
+				ViewBag.FinalTestResultId = _context.TestResults.FirstOrDefault(tr => tr.UserCourseId == userCourseId && tr.TestId == null)?.TestResultId;
 
 				return View(model);
 			}

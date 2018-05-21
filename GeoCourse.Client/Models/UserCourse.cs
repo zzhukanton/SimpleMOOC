@@ -17,6 +17,10 @@ namespace GeoCourse.Client.Models
 
 		public bool IsFinished { get; set; }
 
+		public bool? IsCompleted { get; set; }
+
+		public int? FinalCourseScore { get; set; }
+
 		public int CurrentPoints { get; set; }
 
 		public DateTime? DateCompleted { get; set; }

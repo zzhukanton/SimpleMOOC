@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Users";
+	int i = 0;
+}
+
+<h2>Все пользователи</h2>
+
+<ul>
+	@foreach (var user in ViewBag.Users)
+	{
+		<li>@(++i) @user.UserName @user.Email</li>
+		@Html.ActionLink("Показать подробнее", "UserInfo", "Admin", new { id = user.Id }, new { })
+	}
+</ul>
+
+

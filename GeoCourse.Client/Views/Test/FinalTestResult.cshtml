@@ -14,5 +14,14 @@
 
 <h2>Итоговая оценка курса: @ViewBag.FinalPercentage %</h2>
 
+@if (ViewBag.FinalPercentage > ViewBag.CourseRequiredPercentage)
+{
+	<p>Поздравляем, вы прошли данный курс!</p>
+}
+else
+{
+	<p>К сожалению, вашей оценки недостаточно, чтобы засчитать данный курс.</p>
+}
+
 @Html.ActionLink("Вернуться на главную", "Index", "Home")
 

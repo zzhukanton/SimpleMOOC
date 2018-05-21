@@ -190,6 +190,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -213,6 +214,14 @@
     <Compile Include="Migrations\201805131443556_MakeCompletedDateNullable.Designer.cs">
       <DependentUpon>201805131443556_MakeCompletedDateNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805211847073_AddIsCompletedToUserCourse.cs" />
+    <Compile Include="Migrations\201805211847073_AddIsCompletedToUserCourse.Designer.cs">
+      <DependentUpon>201805211847073_AddIsCompletedToUserCourse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805211918543_AddFinalCourseScore.cs" />
+    <Compile Include="Migrations\201805211918543_AddFinalCourseScore.Designer.cs">
+      <DependentUpon>201805211918543_AddFinalCourseScore.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Answer.cs" />
@@ -230,6 +239,8 @@
     <Compile Include="ViewModels\FinishCourseViewModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\TestViewModel.cs" />
+    <Compile Include="ViewModels\UserStatsListViewModel.cs" />
+    <Compile Include="ViewModels\UserStatsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -295,6 +306,8 @@
     <Content Include="Views\Course\FinishCourse.cshtml" />
     <Content Include="Views\Test\FinalTest.cshtml" />
     <Content Include="Views\Test\FinalTestResult.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\UserInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -324,6 +337,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805131443556_MakeCompletedDateNullable.resx">
       <DependentUpon>201805131443556_MakeCompletedDateNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805211847073_AddIsCompletedToUserCourse.resx">
+      <DependentUpon>201805211847073_AddIsCompletedToUserCourse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805211918543_AddFinalCourseScore.resx">
+      <DependentUpon>201805211918543_AddFinalCourseScore.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

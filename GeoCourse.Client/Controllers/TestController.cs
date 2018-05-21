@@ -14,7 +14,7 @@ namespace GeoCourse.Client.Controllers
     {
 		// 7 questions
 		public const int QUESTION_COUNT_PER_TEST = 5;
-		public ApplicationDbContext _context;
+		private ApplicationDbContext _context;
 
 		public TestController()
 		{
@@ -166,6 +166,7 @@ namespace GeoCourse.Client.Controllers
 			var courseId = _context.Tests.Find(_context.Questions.Find(anyQuestionId).TestId).CourseId;
 			var course = _context.Courses.Find(courseId);
 			ViewBag.CourseTitle = course.Title;
+			ViewBag.CourseRequiredPercentage = (double)course.RequiredPoints / 100;
 
 			var userId = Guid.Parse(User.Identity.GetUserId());
 			var userCourse = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == course.CourseId && uc.UserId == userId);
@@ -175,8 +176,7 @@ namespace GeoCourse.Client.Controllers
 			_context.Entry(testResult).State = System.Data.Entity.EntityState.Modified;
 			userCourse.DateCompleted = DateTime.Now;
 
-			_context.Entry(userCourse).State = System.Data.Entity.EntityState.Modified;
-			_context.SaveChanges();
+			
 
 			ViewBag.Correct = correctAnswerCount;
 			var all = selectedAnswerIds.Count();
@@ -186,6 +186,12 @@ namespace GeoCourse.Client.Controllers
 			ViewBag.TestResults = testResults;
 			ViewBag.Tests = _context.Tests.Where(t => t.CourseId == course.CourseId).ToList();
 			ViewBag.FinalPercentage = (0.6 * correctAnswerCount / all + 0.4 * testResultsScore) * 100;
+
+			bool isCompleted = ViewBag.FinalPercentage >= ViewBag.CourseRequiredPercentage;
+			userCourse.IsCompleted = isCompleted;
+			userCourse.FinalCourseScore = (int)Math.Round((double)ViewBag.FinalPercentage, 2) * 100;
+			_context.Entry(userCourse).State = System.Data.Entity.EntityState.Modified;
+			_context.SaveChanges();
 
 			return View("FinalTestResult");
 		}

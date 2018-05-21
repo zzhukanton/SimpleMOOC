@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -24,6 +26,10 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Главная", "Index", "Home")</li>
 					<li>@Html.ActionLink("Все курсы", "All", "Home")</li>
+					@if (User.IsInRole("Admin"))
+					{
+						<li>@Html.ActionLink("Пользователи", "Users", "Admin")</li>
+					}
                     <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

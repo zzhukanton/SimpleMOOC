@@ -1,0 +1,14 @@
+﻿@model GeoCourse.Client.ViewModels.UserStatsListViewModel
+@{
+    ViewBag.Title = "UserInfo";
+}
+
+<h2>@ViewBag.UserName</h2>
+
+<ul>
+	@foreach (var userStats in Model.UserStats)
+	{
+		<p>Курс: @userStats.CourseTitle Статус: @userStats.State Текущие баллы: @userStats.PointProgress Попытки сдачи тестов: @userStats.AttemptProgress Тестов пройдено: @userStats.TestProgress Требуемый процент выполнения: @userStats.RequiredPercent Результат финального теста: @userStats.FinalTestResult Итоговый процент: @userStats.FinalCourseScore</p>
+	}
+</ul>
+
