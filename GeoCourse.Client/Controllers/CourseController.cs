@@ -27,6 +27,7 @@ namespace GeoCourse.Client.Controllers
 
 		public FileStreamResult LoadPdf()
 		{
+			//var path = 
 			FileStream fs = new FileStream(@"E:\PVS\PVS\plc\Startup.pdf", FileMode.Open, FileAccess.Read);
 			return File(fs, "application/pdf");
 		}
@@ -46,19 +47,22 @@ namespace GeoCourse.Client.Controllers
 					User_Id = Guid.Parse(User.Identity.GetUserId())
 				};
 				ViewBag.IsEnrolled = _context.UserCourses.Any(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id);
-				var testIds = _context.Tests.Where(t => t.CourseId == course.CourseId).Select(t => t.TestId).ToList();
-				var testResults = _context.TestResults.Where(tr => testIds.Contains(tr.TestId.Value)).ToList();
-				ViewBag.TestResults = testResults;
-				ViewBag.CurrentPoints = testResults.Sum(tr => tr.PointCount);
-				ViewBag.MaxPoints = testResults.Count() * TestController.QUESTION_COUNT_PER_TEST;
-				ViewBag.HaveTestSkipped = testResults.Any(tr => tr.CurrentTryCount == 0);
-				var userCourseId = testResults.FirstOrDefault().UserCourseId;
-				ViewBag.UserCourseId = userCourseId;
-				//ViewBag.FinalScore = _context.UserCourses.Find(userCourseId).
-				ViewBag.CompletelyFinished = _context.UserCourses.Find(userCourseId).DateCompleted != null;
-				ViewBag.IsCourseFinished = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id)?.IsFinished;
-				ViewBag.FinalTestResultId = _context.TestResults.FirstOrDefault(tr => tr.UserCourseId == userCourseId && tr.TestId == null)?.TestResultId;
-
+				if (ViewBag.IsEnrolled)
+				{
+					var testIds = _context.Tests.Where(t => t.CourseId == course.CourseId).Select(t => t.TestId).ToList();
+					var testResults = _context.TestResults.Where(tr => tr.UserCourseId == _context.UserCourses.FirstOrDefault(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id).UserCourseId && testIds.Contains(tr.TestId.Value)).ToList();
+					ViewBag.TestResults = testResults;
+					ViewBag.CurrentPoints = testResults.Sum(tr => tr.PointCount);
+					ViewBag.MaxPoints = testResults.Count() * TestController.QUESTION_COUNT_PER_TEST;
+					ViewBag.HaveTestSkipped = testResults.Any(tr => tr.CurrentTryCount == 0);
+					var userCourseId = testResults.FirstOrDefault().UserCourseId;
+					ViewBag.UserCourseId = userCourseId;
+					//ViewBag.FinalScore = _context.UserCourses.Find(userCourseId).
+					ViewBag.CompletelyFinished = _context.UserCourses.Find(userCourseId).DateCompleted != null;
+					ViewBag.IsCourseFinished = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id)?.IsFinished;
+					ViewBag.FinalTestResultId = _context.TestResults.FirstOrDefault(tr => tr.UserCourseId == userCourseId && tr.TestId == null)?.TestResultId;
+				}
+				
 				return View(model);
 			}
 			
@@ -88,7 +92,7 @@ namespace GeoCourse.Client.Controllers
 
 			_context.SaveChanges();
 
-			return View("Course");
+			return RedirectToAction("Course", new { id = model.CourseId });
 		}
 
 		[Authorize]

@@ -189,7 +189,8 @@ namespace GeoCourse.Client.Controllers
 
 			bool isCompleted = ViewBag.FinalPercentage >= ViewBag.CourseRequiredPercentage;
 			userCourse.IsCompleted = isCompleted;
-			userCourse.FinalCourseScore = (int)Math.Round((double)ViewBag.FinalPercentage, 2) * 100;
+			userCourse.FinalCourseScore = (int)Math.Round((double)ViewBag.FinalPercentage, 2);
+			userCourse.CurrentPoints += correctAnswerCount;
 			_context.Entry(userCourse).State = System.Data.Entity.EntityState.Modified;
 			_context.SaveChanges();
 

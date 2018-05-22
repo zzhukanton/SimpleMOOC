@@ -25,23 +25,23 @@
 		}
 	</ul>
 
-	if (ViewBag.CompletelyFinished)
+	if (!ViewBag.IsEnrolled)
 	{
-		<p>Вы уже завершили данный курс!</p>
+		<div>
+			@using (Html.BeginForm("Enroll", "Course", FormMethod.Post))
+			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(c => c.CourseId)
+				@Html.HiddenFor(c => c.User_Id)
+				<input type="submit" value="Зарегистрироваться на курс" />
+			}
+		</div>
 	}
 	else
 	{
-		if (!ViewBag.IsEnrolled)
+		if (ViewBag.CompletelyFinished)
 		{
-			<div>
-				@using (Html.BeginForm("Enroll", "Course", FormMethod.Post))
-				{
-					@Html.AntiForgeryToken()
-					@Html.HiddenFor(c => c.CourseId)
-					@Html.HiddenFor(c => c.User_Id)
-					<input type="submit" value="Зарегистрироваться на курс" />
-				}
-			</div>
+			<p>Вы уже завершили данный курс!</p>
 		}
 		else
 		{
@@ -68,8 +68,8 @@
 				}
 			}
 		}
-	}
 
+	}
 }
 else
 {
