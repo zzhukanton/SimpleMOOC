@@ -238,6 +238,7 @@
     <Compile Include="ViewModels\EnrollViewModel.cs" />
     <Compile Include="ViewModels\FinishCourseViewModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\RandomHelper.cs" />
     <Compile Include="ViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\UserStatsListViewModel.cs" />
     <Compile Include="ViewModels\UserStatsViewModel.cs" />

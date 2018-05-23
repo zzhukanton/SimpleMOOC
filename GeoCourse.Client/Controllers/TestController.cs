@@ -60,7 +60,7 @@ namespace GeoCourse.Client.Controllers
 							Title = a.Title
 						})
 						.AsEnumerable()
-				}).Take(5).ToList();
+				}).ToList().GetRandomItems(5);
 				var model = new TestViewModel()
 				{
 					TestId = id,
@@ -126,7 +126,7 @@ namespace GeoCourse.Client.Controllers
 			ViewBag.CourseTitle = _context.Courses.Find(userCourse.CourseId).Title;
 
 			var questions = _context.Tests.Where(t => t.CourseId == userCourse.CourseId)
-				.SelectMany(t => _context.Questions.Where(q => q.TestId == t.TestId).Take(3).ToList()).ToList();
+				.SelectMany(t => _context.Questions.Where(q => q.TestId == t.TestId).ToList().GetRandomItems(3)).ToList();
 
 			var testViewModel = new TestViewModel()
 			{

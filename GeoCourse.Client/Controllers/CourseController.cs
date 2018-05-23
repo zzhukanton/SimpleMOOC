@@ -107,6 +107,8 @@ namespace GeoCourse.Client.Controllers
 			ViewBag.IsCourseFinished = userCourse.IsFinished;
 			ViewBag.LatestTestResult = testResult;
 			ViewBag.Chapter = chapter;
+			ViewBag.IsLastChapter = chapter.CourseId != _context.Tests.Find(id + 1)?.CourseId;
+			ViewBag.IsFirstChapter = chapter.CourseId != _context.Tests.Find(id - 1)?.CourseId;
 
 			return View();
 		}

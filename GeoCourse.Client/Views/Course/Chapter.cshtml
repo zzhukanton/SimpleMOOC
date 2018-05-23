@@ -30,6 +30,14 @@ else
 	{
 		<p>Вы исчерпали лимит попыток сдачи данного теста. Ваш результат: @ViewBag.LatestTestResult.PointCount правильных ответов.</p>
 	}
-
 }
 
+@if (!ViewBag.IsLastChapter)
+{
+	<p>@Html.ActionLink("Вперед", "Chapter", "Course", new { id = (int)(ViewBag.Chapter.TestId + 1) }, new { })</p>
+}
+
+@if (!ViewBag.IsFirstChapter)
+{
+	<p>@Html.ActionLink("Назад", "Chapter", "Course", new { id = (int)(ViewBag.Chapter.TestId - 1) }, new { })</p>
+}
