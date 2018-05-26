@@ -61,3 +61,9 @@ h2.popular {
 .duration {
 	color: darkred;
 }
+
+#chapters {
+	background: mintcream;
+	border-radius: 10px;
+	padding-left: 30px;
+}
