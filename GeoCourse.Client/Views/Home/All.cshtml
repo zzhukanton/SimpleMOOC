@@ -1,16 +1,158 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "All";
 }
 
 <h2>Все курсы</h2>
-<div class="row">
+<p>Вы можете выбрать любой курс из списка ниже. Чтобы перейти на страницу курса и ознакомиться с содержимым курса и его программой, нажмите на "Записаться на курс".</p>
+
+<div class="row text-center">
 	@foreach (var course in ViewBag.All)
 	{
-		<div>
-			@Html.ActionLink(course.Title as string, "Course", "Course", new { id = course.CourseId }, new { })
-			<p>@course.Duration</p>
+		<div class="col-md-3 col-sm-6 hero-feature all-item">
+			<div class="thumbnail">
+				<img src="@course.PicturePath" alt="">
+				<div class="caption">
+					<h3>@course.Title</h3>
+					<p>@course.Description</p>
+					<p>
+						@Html.ActionLink("Записаться на курс", "Course", "Course", new { id = course.CourseId }, new { @class = "btn btn-primary" })
+					</p>
+				</div>
+			</div>
 		</div>
 	}
-</div>
 
+<!--fake data-->
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 hero-feature all-item">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
