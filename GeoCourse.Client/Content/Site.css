@@ -33,6 +33,11 @@ textarea {
 	height: 100%;
 }
 
+.row.custom-row {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
 .row.text-center.custom-row {
 	margin-top: 40px;
 	margin-bottom: 40px;
@@ -46,4 +51,13 @@ textarea {
 h2.text-center.popular {
 	margin-bottom: 20px;
 	margin-top: 40px;
+}
+
+h2.popular {
+	margin-bottom: 20px;
+	margin-top: 40px;
+}
+
+.duration {
+	color: darkred;
 }

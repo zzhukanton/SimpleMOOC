@@ -3,75 +3,94 @@
 	ViewBag.Title = "Course";
 }
 
-<h2>@ViewBag.Course.Title</h2>
-<p>
-	@ViewBag.Course.Description
-</p>
+<h2 class="popular">@ViewBag.Course.Title</h2>
 
-@if (Request.IsAuthenticated)
-{
-	<ul>
-		@foreach (var chapter in ViewBag.CourseMap)
-		{
-			if (ViewBag.IsEnrolled)
+<div class="row custom-row">
+	<div class="col-md-8">
+		<p>
+			@ViewBag.Course.Description
+		</p>
+		<hr />
+		<p>Примерное время прохождения курса: <span class="duration">@ViewBag.Course.Duration</span></p>
+	</div>
+	<div class="col-md-4">
+		<img src="http://placehold.it/800x500" class="img-responsive img-rounded" alt=""/>
+	</div>
+</div>
+<hr />
+
+<div class="row">
+	@if (Request.IsAuthenticated)
+	{
+		<div class="col-md-8">
+			<h3>Разделы:</h3>
+			<ul>
+				@foreach (var chapter in ViewBag.CourseMap)
+				{
+					if (ViewBag.IsEnrolled)
+					{
+						<li>@Html.ActionLink(chapter.Chapter as string, "Chapter", "Course", new { id = chapter.TestId }, new { })</li>
+					}
+					else
+					{
+						<li>@chapter.Chapter</li>
+					}
+				}
+			</ul>
+		</div>
+		
+		<div class="col-md-4">
+			@if (!ViewBag.IsEnrolled)
 			{
-
-				<li>@Html.ActionLink(chapter.Chapter as string, "Chapter", "Course", new { id = chapter.TestId }, new { })</li>
+				<div>
+					@using (Html.BeginForm("Enroll", "Course", FormMethod.Post))
+					{
+						@Html.AntiForgeryToken()
+						@Html.HiddenFor(c => c.CourseId)
+						@Html.HiddenFor(c => c.User_Id)
+						<input type="submit" class="btn btn-primary" value="Зарегистрироваться на курс" />
+					}
+				</div>
 			}
 			else
 			{
-				<li>@chapter.Chapter</li>
-			}
-		}
-	</ul>
+				if (ViewBag.CompletelyFinished)
+				{
+					<p>Вы уже завершили данный курс!</p>
+				}
+				else
+				{
+					<div>
+						<h3>Текущий прогресс:</h3>
+						<!--Probably make links to start test page-->
+						@for (int i = 0; i < ViewBag.TestResults.Count; i++)
+						{
+							<p>@ViewBag.CourseMap[i].Chapter - @ViewBag.TestResults[i].PointCount</p>
+						}
+						<p>Общий результат: @ViewBag.CurrentPoints / @ViewBag.MaxPoints</p>
+					</div>
 
-	if (!ViewBag.IsEnrolled)
-	{
-		<div>
-			@using (Html.BeginForm("Enroll", "Course", FormMethod.Post))
-			{
-				@Html.AntiForgeryToken()
-				@Html.HiddenFor(c => c.CourseId)
-				@Html.HiddenFor(c => c.User_Id)
-				<input type="submit" value="Зарегистрироваться на курс" />
+					if (ViewBag.IsCourseFinished)
+					{
+						@Html.ActionLink("Пройти финальный тест", "FinalTest", "Test", new { id = (int)ViewBag.FinalTestResultId }, new { })
+					}
+					else
+					{
+						if (!ViewBag.HaveTestSkipped)
+						{
+							<h4>Завершить курс</h4>
+							@Html.ActionLink("Завершить", "FinishCourse", "Course", new { id = (int)ViewBag.UserCourseId }, new { })
+						}
+					}
+				}
 			}
 		</div>
 	}
 	else
 	{
-		if (ViewBag.CompletelyFinished)
-		{
-			<p>Вы уже завершили данный курс!</p>
-		}
-		else
-		{
-			<p>Чтобы продолжить обучение, выберите тему из списка.</p>
-			<div>
-				<h3>Текущий прогресс: @ViewBag.CurrentPoints / @ViewBag.MaxPoints</h3>
-				<!--Probably make links to start test page-->
-				@for (int i = 0; i < ViewBag.TestResults.Count; i++)
-				{
-					<p>@ViewBag.CourseMap[i].Chapter - @ViewBag.TestResults[i].PointCount</p>
-				}
-			</div>
-
-			if (ViewBag.IsCourseFinished)
-			{
-				@Html.ActionLink("Пройти финальный тест", "FinalTest", "Test", new { id = (int)ViewBag.FinalTestResultId }, new { })
-			}
-			else
-			{
-				if (!ViewBag.HaveTestSkipped)
-				{
-					<h4>Завершить курс</h4>
-					@Html.ActionLink("Завершить", "FinishCourse", "Course", new { id = (int)ViewBag.UserCourseId }, new { })
-				}
-			}
-		}
-
+		<div class="jumbotron hero-spacer">
+			<p>Чтобы увидеть карту курса и записаться на него, вам нужно @Html.ActionLink("зарегистрироваться", "Register", "Account") или @Html.ActionLink("войти", "Login", "Account").</p>
+		</div>
+	
 	}
-}
-else
-{
-	<p>Чтобы увидеть карту курса и зарегистрироваться, вам нужно @Html.ActionLink("зарегистрироваться", "Register", "Account") или @Html.ActionLink("войти", "Login", "Account").</p>
-}
+</div>
