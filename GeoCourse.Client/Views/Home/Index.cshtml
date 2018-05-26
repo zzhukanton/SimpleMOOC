@@ -1,13 +1,74 @@
 ﻿@{
-    ViewBag.Title = "Главная";
+	ViewBag.Title = "Главная";
 }
 
-<div class="row">
+<!-- Jumbotron Header -->
+<header class="jumbotron hero-spacer">
+	<h1>Добро пожаловать!</h1>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
+	<p>
+		<a class="btn btn-primary btn-large">Записаться на курс!</a>
+	</p>
+</header>
+
+<div class="row text-center">
 	@foreach (var course in ViewBag.PopularCourses)
 	{
-		<div>
-			@Html.ActionLink(course.Title as string, "Course", "Course", new { id = course.CourseId }, new { })
-			<p>@course.Duration</p>
+		<div class="col-md-3 col-sm-6 hero-feature">
+			<div class="thumbnail">
+				<img src="@course.PicturePath" alt="">
+				<div class="caption">
+					<h3>@course.Title</h3>
+					<p>@course.Description</p>
+					<p>
+						@Html.ActionLink("Записаться на курс", "Course", "Course", new { id = course.CourseId }, new { @class = "btn btn-primary" })
+					</p>
+				</div>
+			</div>
 		</div>
 	}
+
+	<!--Here some fake data-->
+	<div class="col-md-3 col-sm-6 hero-feature">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-3 col-sm-6 hero-feature">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-3 col-sm-6 hero-feature">
+		<div class="thumbnail">
+			<img src="http://placehold.it/800x500" alt="">
+			<div class="caption">
+				<h3>Минералы</h3>
+				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<p>
+					<a href="#" class="btn btn-primary">Записаться на курс</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row text-center custom-row">
+	@Html.ActionLink("Показать все курсы", "All", "Home", new { }, new { @class = "btn btn-primary" })
 </div>
