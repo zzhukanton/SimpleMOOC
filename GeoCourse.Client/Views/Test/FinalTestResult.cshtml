@@ -23,11 +23,11 @@
 				{
 					<tr>
 						<td>@ViewBag.Tests[i].Chapter</td>
-						<td>@ViewBag.TestResults[i].PointCount / 5 </td>
-						<td>@((double)ViewBag.TestResults[i].PointCount / 5 * 100)%</td>
+						<td>@ViewBag.TestResults[i].PointCount / 7 </td>
+						<td>@(Math.Round((double)ViewBag.TestResults[i].PointCount / 7 * 100, 2))%</td>
 					</tr>
 				}
-				<tr><td><b>Общий результат:</b> </td><td><span style="color: chocolate">@ViewBag.CurrentPoints</span> / @ViewBag.MaxPoints</td></tr>
+				<tr><td><b>Финальный тест</b></td><td><b>@ViewBag.Correct/@ViewBag.All</b></td><td><b>@(Math.Round((double)ViewBag.Correct / ViewBag.All * 100, 2))%</b></td></tr>
 			</tbody>
 		</table>
 	</div>

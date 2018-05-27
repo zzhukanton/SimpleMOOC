@@ -18,7 +18,7 @@ namespace GeoCourse.Client.Controllers
 
 		public ActionResult Index()
 		{
-			var popularCourses = _context.Courses.Take(3).AsQueryable();
+			var popularCourses = _context.Courses.Take(4).AsQueryable();
 			ViewBag.PopularCourses = popularCourses;
 			return View();
 		}
