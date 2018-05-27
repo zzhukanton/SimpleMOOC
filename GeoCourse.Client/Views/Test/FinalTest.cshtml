@@ -3,7 +3,7 @@
 	ViewBag.Title = "FinalTest";
 }
 
-<h2>Финальный тест по курсу <u>@Html.ActionLink(ViewBag.CourseTitle as string, "Course", "Course", new { id = (int)ViewBag.CourseId }, new { }) </u></h2>
+<h2>Финальный тест по курсу <u>@Html.ActionLink(ViewBag.CourseTitle as string, "Course", "Course", new { id = (int)ViewBag.CourseId }, new { })</u></h2>
 <p style="margin-top: 40px">Ниже приведен список вопросов, на которые нужно ответить, выбрав верный вариант. У каждого вопроса только один верный вариант ответа. Выбрав варианты ответа на каждый из вопросов, нажмите на "Завершить тест" внизу страницы.</p>
 
 @using (Html.BeginForm("VerifyFinalTest", "Test", FormMethod.Post))
@@ -11,7 +11,7 @@
 	for (int i = 0; i < Model.Questions.Count; i++)
 	{
 		@Html.HiddenFor(t => t.Questions[i].QuestionId)
-		<h3>@Model.Questions[i].Title</h3>
+		<h3>@Model.Questions[i].Title <small>  @Html.ValidationMessageFor(t => t.Questions[i].SelectedAnswer, "", new { @class = "text-danger" })</small></h3>
 
 		foreach (var answer in Model.Questions[i].Answers)
 		{
@@ -23,4 +23,8 @@
 	}
 
 	<input type="submit" value="Завершить финальный тест" class="btn btn-danger btn-lg" />
+}
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
 }

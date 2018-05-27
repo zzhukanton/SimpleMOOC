@@ -58,6 +58,10 @@ namespace GeoCourse.Client.Controllers
 					ViewBag.UserCourseId = userCourseId;
 					//ViewBag.FinalScore = _context.UserCourses.Find(userCourseId).
 					ViewBag.CompletelyFinished = _context.UserCourses.Find(userCourseId).DateCompleted != null;
+					if (ViewBag.CompletelyFinished)
+					{
+						ViewBag.FinalCourseScore = _context.UserCourses.Find(userCourseId).FinalCourseScore;
+					}
 					ViewBag.IsCourseFinished = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == model.CourseId && uc.UserId == model.User_Id)?.IsFinished;
 					ViewBag.FinalTestResultId = _context.TestResults.FirstOrDefault(tr => tr.UserCourseId == userCourseId && tr.TestId == null)?.TestResultId;
 				}
@@ -92,6 +96,23 @@ namespace GeoCourse.Client.Controllers
 			_context.SaveChanges();
 
 			return RedirectToAction("Course", new { id = model.CourseId });
+		}
+
+		[HttpPost]
+		public ActionResult TryAgain(EnrollViewModel model)
+		{
+			//clean current results
+			//remove user course record
+			var userCourse = _context.UserCourses.FirstOrDefault(uc => uc.UserId == model.User_Id && uc.CourseId == model.CourseId);
+			_context.Entry(userCourse).State = System.Data.Entity.EntityState.Deleted;
+
+			//remove all test results
+			var testResults = _context.TestResults.Where(tr => tr.UserCourseId == userCourse.UserCourseId).ToList();
+			testResults.ForEach(tr => _context.Entry(tr).State = System.Data.Entity.EntityState.Deleted);
+
+			_context.SaveChanges();
+
+			return this.Enroll(model);
 		}
 
 		[Authorize]

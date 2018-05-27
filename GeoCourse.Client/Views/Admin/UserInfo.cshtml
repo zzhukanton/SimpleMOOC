@@ -10,28 +10,28 @@
 	<table class="table table-hover table-striped">
 		<thead>
 			<tr>
-				<td><b>Название курса</b></td>
-				<td><b>Статус изучения</b></td>
-				<td><b>Текущие баллы</b></td>
-				<td><b>Попытки сдачи тестов</b></td>
-				<td><b>Тестов пройдено</b></td>
-				<td><b>Требуемый процент</b></td>
-				<td><b>Результат финального теста</b></td>
-				<td><b>Оценка за курс</b></td>
+				<td class="text-center"><b>Название курса</b></td>
+				<td class="text-center"><b>Статус изучения</b></td>
+				<td class="text-center"><b>Текущие баллы</b></td>
+				<td class="text-center"><b>Попытки сдачи тестов</b></td>
+				<td class="text-center"><b>Тестов пройдено</b></td>
+				<td class="text-center"><b>Требуемый процент</b></td>
+				<td class="text-center"><b>Результат финального теста</b></td>
+				<td class="text-center"><b>Оценка за курс</b></td>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach (var userStats in Model.UserStats)
 			{
 				<tr>
-					<td>@userStats.CourseTitle</td>
-					<td>@userStats.State</td>
-					<td>@userStats.PointProgress</td>
-					<td>@userStats.AttemptProgress</td>
-					<td>@userStats.TestProgress</td>
-					<td>@userStats.RequiredPercent</td>
-					<td>@userStats.FinalTestResult</td>
-					<td>@userStats.FinalCourseScore</td>
+					<td class="text-center">@userStats.CourseTitle</td>
+					<td class="@(userStats.State == "Успешно пройден" ? "success" : userStats.State == "В процессе изучения" ? string.Empty : "danger") text-center">@userStats.State</td>
+					<td class="text-center">@userStats.PointProgress</td>
+					<td class="text-center">@userStats.AttemptProgress</td>
+					<td class="text-center">@userStats.TestProgress</td>
+					<td class="text-center">@userStats.RequiredPercent</td>
+					<td class="text-center">@userStats.FinalTestResult</td>
+					<td class="text-center"><span style="color: chocolate">@userStats.FinalCourseScore%</span></td>
 				</tr>
 			}
 		</tbody>

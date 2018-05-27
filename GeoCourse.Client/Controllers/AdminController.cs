@@ -59,34 +59,12 @@ namespace GeoCourse.Client.Controllers
 							PointProgress = $"{uc.CurrentPoints}/{course.MaxPoints}",
 							AttemptProgress = $"{currentAttempts}/{maxAttemptes}",
 							TestProgress = $"{testTried}/{testResults.Count}",
-							RequiredPercent = $"{course.RequiredPoints} %",
+							RequiredPercent = $"{course.RequiredPoints}%",
 							FinalTestResult = uc.DateCompleted == null ? "Ещё не пройден" : $"{_context.TestResults.FirstOrDefault(tr => tr.TestId == null && tr.UserCourseId == uc.UserCourseId).PointCount}/{testResults.Count * 3}",
 							FinalCourseScore = uc.IsCompleted.HasValue ? $"{uc.FinalCourseScore}" : "Курс еще не завершен"
 						};
 					}).ToList()
 				};
-
-				//foreach (var userCourse in userCourses)
-				//{
-				//	var course = _context.Courses.Find(userCourse.CourseId);
-				//	var testResults = _context.TestResults.Where(tr => tr.TestId != null && tr.UserCourseId == userCourse.UserCourseId).ToList();
-				//	var maxAttemptes = testResults.Count * 2;
-				//	var currentAttempts = testResults.Sum(tr => tr.CurrentTryCount);
-				//	var testTried = testResults.Where(tr => tr.CurrentTryCount != 0);
-
-				//	var userStats = new UserStatsViewModel()
-				//	{
-				//		CourseTitle = course.Title,
-				//		State = userCourse.IsCompleted.HasValue ? userCourse.IsCompleted.Value ? "Успешно пройден" : "Провален" : "В процессе изучения",
-				//		PointProgress = $"{userCourse.CurrentPoints}/{course.MaxPoints}",
-				//		AttemptProgress = $"{currentAttempts}/{maxAttemptes}",
-				//		TestProgress = $"{testTried}/{testResults.Count}",
-				//		RequiredPercent = $"{course.RequiredPoints} %",
-				//		FinalTestResult = userCourse.DateCompleted == null ? "Ещё не пройден" : $"{_context.TestResults.FirstOrDefault(tr => tr.TestId == null && tr.UserCourseId == userCourse.UserCourseId).PointCount}/{testResults.Count * 3}",
-				//		FinalCourseScore = userCourse.IsCompleted.HasValue ? $"{userCourse.FinalCourseScore}" : "Курс еще не завершен"
-				//	};
-				//	userStatsListViewModel.UserStats.Add(userStats);
-				//}
 
 				return View(userStatsListViewModel);
 			}

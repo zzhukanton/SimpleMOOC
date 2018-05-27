@@ -77,6 +77,7 @@
 								<tr><td><b>Общий результат:</b> </td><td><span style="color: chocolate">@ViewBag.CurrentPoints</span> / @ViewBag.MaxPoints</td></tr>
 							</tbody>
 						</table>
+						<h4 class="text-center">Оценка за курс: <span style="color: chocolate"> @ViewBag.FinalCourseScore % </span></h4>
 					</div>
 
 					using (Html.BeginForm("TryAgain", "Course", FormMethod.Post))
