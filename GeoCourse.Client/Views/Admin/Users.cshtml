@@ -5,12 +5,31 @@
 
 <h2>Все пользователи</h2>
 
-<ul>
-	@foreach (var user in ViewBag.Users)
-	{
-		<li>@(++i) @user.UserName @user.Email</li>
-		@Html.ActionLink("Показать подробнее", "UserInfo", "Admin", new { id = user.Id }, new { })
-	}
-</ul>
+<small>Информация о текущих пользователях сайта.</small>
+
+<div class="row" style="margin-top: 20px">
+	<table class="table table-hover table-striped">
+		<thead>
+			<tr>
+				<td>#</td>
+				<td><b>Имя пользователя</b></td>
+				<td><b>Адрес электронной почты</b></td>
+				<td><b>Подробнее</b></td>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var user in ViewBag.Users)
+			{
+				<tr>
+					<td>@(++i)</td>
+					<td>@user.UserName</td>
+					<td>@user.Email</td>
+					<td>@Html.ActionLink("Показать подробнее", "UserInfo", "Admin", new { id = user.Id }, new { })</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+</div>
 
 

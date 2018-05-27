@@ -12,6 +12,7 @@
 		</p>
 		<hr />
 		<p>Примерное время прохождения курса: <span class="duration">@ViewBag.Course.Duration</span></p>
+		<p>Требуемый процент прохождения: <span class="duration" style="font-size: large">@ViewBag.Course.RequiredPoints %</span></p>
 	</div>
 	<div class="col-md-4">
 		<img src="http://placehold.it/800x500" class="img-responsive img-rounded" alt=""/>
@@ -44,13 +45,13 @@
 		<div class="col-md-4">
 			@if (!ViewBag.IsEnrolled)
 			{
-				<div>
+				<div class="text-center">
 					@using (Html.BeginForm("Enroll", "Course", FormMethod.Post))
 					{
 						@Html.AntiForgeryToken()
 						@Html.HiddenFor(c => c.CourseId)
 						@Html.HiddenFor(c => c.User_Id)
-						<input type="submit" class="btn btn-primary" value="Зарегистрироваться на курс" />
+						<input type="submit" class="btn btn-success btn-lg" value="Зарегистрироваться на курс" />
 					}
 				</div>
 			}
@@ -58,7 +59,37 @@
 			{
 				if (ViewBag.CompletelyFinished)
 				{
-					<p>Вы уже завершили данный курс!</p>
+					<div class="stats">
+						<h3 class="text-center">Итоговая статистика:</h3>
+						<!--Probably make links to start test page-->
+
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<td><b>Раздел</b></td><td><b>Баллы</b></td>
+								</tr>
+							</thead>
+							<tbody>
+								@for (int i = 0; i < ViewBag.TestResults.Count; i++)
+								{
+									<tr><td>@ViewBag.CourseMap[i].Chapter</td><td>@ViewBag.TestResults[i].PointCount</td></tr>
+								}
+								<tr><td><b>Общий результат:</b> </td><td><span style="color: chocolate">@ViewBag.CurrentPoints</span> / @ViewBag.MaxPoints</td></tr>
+							</tbody>
+						</table>
+					</div>
+
+					using (Html.BeginForm("TryAgain", "Course", FormMethod.Post))
+					{
+						@Html.AntiForgeryToken()
+						@Html.HiddenFor(c => c.CourseId)
+						@Html.HiddenFor(c => c.User_Id)
+						<div style="margin-top: 20px">
+							<div class="text-center">
+								<input type="submit" class="btn btn-success btn-lg" value="Начать курс сначала" />
+							</div>
+						</div>
+					}
 				}
 				else
 				{
@@ -84,14 +115,23 @@
 
 					if (ViewBag.IsCourseFinished)
 					{
-						@Html.ActionLink("Пройти финальный тест", "FinalTest", "Test", new { id = (int)ViewBag.FinalTestResultId }, new { })
+						<h4 class="text-center">Окончить курс</h4>
+						<small >Чтобы приступить к финальному тесту за курс, нажмите на кнопку ниже.</small>
+						<div style="margin-top: 10px">
+							<div class="text-center">
+								@Html.ActionLink("Пройти финальный тест", "FinalTest", "Test", new { id = (int)ViewBag.FinalTestResultId }, new { @class = "btn btn-success btn-lg btn-block" })
+							</div>
+						</div>
 					}
 					else
 					{
 						if (!ViewBag.HaveTestSkipped)
 						{
-							<h4>Завершить курс</h4>
-							@Html.ActionLink("Завершить", "FinishCourse", "Course", new { id = (int)ViewBag.UserCourseId }, new { })
+							<h4 class="text-center">Завершить курс</h4>
+							<small>Вы можете завешить курс и перейти к финальному тестированию, поскольку попытались пройти каждый тест в курсе.</small>
+							<div class="text-center">
+								@Html.ActionLink("Завершить", "FinishCourse", "Course", new { id = (int)ViewBag.UserCourseId }, new { @class = "btn btn-danger btn-lg" })
+							</div>
 						}
 					}
 				}

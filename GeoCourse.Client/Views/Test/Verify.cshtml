@@ -3,28 +3,45 @@
     ViewBag.Title = "Verify";
 }
 
-<h2>Результат: @ViewBag.Percent %</h2>
-<h3>Вы ответили правильно на @ViewBag.CorrectAnswerCount вопросов из @ViewBag.AnswerCount</h3>
+<h2>Результат: <span style="color: chocolate"> @ViewBag.Percent % </span></h2>
+<h3>Верных ответов: <span style="color: chocolate"> @ViewBag.CorrectAnswerCount </span> из @ViewBag.AnswerCount</h3>
 
-<h3>Вопросы, на которые были даны неправильные ответы:</h3>
-
-<ul>
-	@foreach (var question in ViewBag.FailedQuestions)
+<div class="row custom-row">
+	@if (ViewBag.FailedQuestions.Count == 0)
 	{
-		<li>@question</li>
+		<p>Вы ответили верно на все вопросы!</p>
 	}
-</ul>
+	else
+	{
+		<table class="table table-hover table-striped table-bordered col-md-6">
+			<thead>
+				<tr><td><b>Вопросы, на которые были даны неправильные ответы:</b></td></tr>
+			</thead>
+			<tbody>
+				@foreach (var question in ViewBag.FailedQuestions)
+				{
+					<tr class="danger"><td>@question</td></tr>
+				}
+			</tbody>
+		</table>
+	}
+</div>
 
-@if (ViewBag.MaxTryReached)
-{
-	<p>Ваш результат сохранен, к сожалению, это была ваша последняя попытка. Удачи в следующих разделах!</p>
-}
-else
-{
-	<p>Ваш результат сохранен, чтобы пройти тест еще раз, нажмите @Html.ActionLink("пройти еще раз", "Test", "Test", new { id = (int)ViewBag.TestId }, new { }). Учтите, что эта попытка будет последней в вашей жизни.</p>
-}
+<div class="row custom-row">
+	@if (ViewBag.MaxTryReached)
+	{
+		<p class="text-warning">Ваш результат сохранен, к сожалению, это была ваша последняя попытка. Удачи в следующих разделах! Ваш лучший результат был сохранен.</p>
+	}
+	else
+	{
+		<p>Ваш результат сохранен, чтобы пройти тест еще раз, нажмите @Html.ActionLink("пройти еще раз", "Test", "Test", new { id = (int)ViewBag.TestId }, new { }).</p>
+	}
+</div>
 
-@Html.ActionLink("Вернуться на главную страницу курса", "Course", "Course", new { id = (int)ViewBag.CourseId }, new { })
+<div class="row">
+	<u>@Html.ActionLink("Вернуться на главную страницу курса", "Course", "Course", new { id = (int)ViewBag.CourseId }, new { @class = "btn btn-default"})</u>
+</div>
+
 
 
 

@@ -3,12 +3,38 @@
     ViewBag.Title = "UserInfo";
 }
 
-<h2>@ViewBag.UserName</h2>
+<h2>Пользователь: <span style="color: chocolate">@ViewBag.UserName</span></h2>
+<small>Ниже вы можете увидеть статистику изучения курсов выбранным пользователем.</small>
 
-<ul>
-	@foreach (var userStats in Model.UserStats)
-	{
-		<p>Курс: @userStats.CourseTitle Статус: @userStats.State Текущие баллы: @userStats.PointProgress Попытки сдачи тестов: @userStats.AttemptProgress Тестов пройдено: @userStats.TestProgress Требуемый процент выполнения: @userStats.RequiredPercent Результат финального теста: @userStats.FinalTestResult Итоговый процент: @userStats.FinalCourseScore</p>
-	}
-</ul>
+<div class="row" style="margin-top: 20px">
+	<table class="table table-hover table-striped">
+		<thead>
+			<tr>
+				<td><b>Название курса</b></td>
+				<td><b>Статус изучения</b></td>
+				<td><b>Текущие баллы</b></td>
+				<td><b>Попытки сдачи тестов</b></td>
+				<td><b>Тестов пройдено</b></td>
+				<td><b>Требуемый процент</b></td>
+				<td><b>Результат финального теста</b></td>
+				<td><b>Оценка за курс</b></td>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var userStats in Model.UserStats)
+			{
+				<tr>
+					<td>@userStats.CourseTitle</td>
+					<td>@userStats.State</td>
+					<td>@userStats.PointProgress</td>
+					<td>@userStats.AttemptProgress</td>
+					<td>@userStats.TestProgress</td>
+					<td>@userStats.RequiredPercent</td>
+					<td>@userStats.FinalTestResult</td>
+					<td>@userStats.FinalCourseScore</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
 

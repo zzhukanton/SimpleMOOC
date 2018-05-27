@@ -67,3 +67,23 @@ h2.popular {
 	border-radius: 10px;
 	padding-left: 30px;
 }
+
+#successful {
+	background: #dff0d8;
+	border-radius: 10px;
+	padding-left: 20px;
+}
+
+#failed {
+	background: #f2dede;
+	border-radius: 10px;
+	padding-left: 20px;
+}
+
+.navigation {
+
+}
+
+#next {
+	float: right;
+}

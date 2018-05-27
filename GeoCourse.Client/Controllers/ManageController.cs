@@ -15,16 +15,19 @@ namespace GeoCourse.Client.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+		private ApplicationDbContext _context;
 
         public ManageController()
         {
-        }
+			_context = new ApplicationDbContext();
+		}
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-        }
+			_context = new ApplicationDbContext();
+		}
 
         public ApplicationSignInManager SignInManager
         {
@@ -52,27 +55,13 @@ namespace GeoCourse.Client.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public ActionResult Index()
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
-                : message == ManageMessageId.SetPasswordSuccess ? "Пароль задан."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Настроен поставщик двухфакторной проверки подлинности."
-                : message == ManageMessageId.Error ? "Произошла ошибка."
-                : message == ManageMessageId.AddPhoneSuccess ? "Ваш номер телефона добавлен."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
-                : "";
+			var userId = Guid.Parse(User.Identity.GetUserId());
+			var courseIds = _context.UserCourses.Where(uc => uc.UserId == userId).Select(uc => uc.CourseId).ToList();
+			ViewBag.MyCourses = _context.Courses.Where(c => courseIds.Contains(c.CourseId));
 
-            var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
-            return View(model);
+			return View();
         }
 
         //

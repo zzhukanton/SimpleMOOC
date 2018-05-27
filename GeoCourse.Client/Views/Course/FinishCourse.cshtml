@@ -3,12 +3,14 @@
     ViewBag.Title = "FinishCourse";
 }
 
-<h2>Вы уверены, что хотите завершить курс @ViewBag.CourseName?</h2>
-<h3>Ваш текущий прогресс: @ViewBag.CurrentPoints / @ViewBag.MaxPoints</h3>
+<h2>Вы уверены, что хотите завершить курс <u> @Html.ActionLink(ViewBag.CourseName as string, "Course", "Course", new { id = (int)ViewBag.CourseId }) </u>?</h2>
+<h3>Ваш текущий прогресс: <span style="color: chocolate">@ViewBag.CurrentPoints</span> / @ViewBag.MaxPoints</h3>
+
+<p>Нажав "Завершить курс", вы уже больше не сможете проходить тесты по разделам курса (даже в случае оставшихся попыток). Но вы все еще будете иметь доступ к материалам курса, это позволит вам подготовиться к сдаче финального теста. По нажатию на кнопку откроется доступ к финальному тестирования по данному курсу. Финальный тест состоит из вопросов, выбранных из каждого раздела случайным образом.</p>
 @using (Html.BeginForm("FinishCourse", "Course", FormMethod.Post))
 {
 	@Html.HiddenFor(m => m.UserCourseId)
 	
-	<input type="submit" value="Завершить курс" class="btn btn-default"/>
+	<input type="submit" value="Завершить курс" class="btn btn-danger btn-lg"/>
 }
 

@@ -25,10 +25,9 @@ namespace GeoCourse.Client.Controllers
             return View();
         }
 
-		public FileStreamResult LoadPdf()
+		public FileStreamResult LoadPdf(string path)
 		{
-			//var path = 
-			FileStream fs = new FileStream(@"E:\PVS\PVS\plc\Startup.pdf", FileMode.Open, FileAccess.Read);
+			FileStream fs = new FileStream($@"{path}", FileMode.Open, FileAccess.Read);
 			return File(fs, "application/pdf");
 		}
 
@@ -118,7 +117,9 @@ namespace GeoCourse.Client.Controllers
 		public ActionResult FinishCourse(int id)
 		{
 			var userCourse = _context.UserCourses.Find(id);
-			ViewBag.CourseName = _context.Courses.Find(userCourse.CourseId).Title;
+			var course = _context.Courses.Find(userCourse.CourseId);
+			ViewBag.CourseName = course.Title;
+			ViewBag.CourseId = course.CourseId;
 			ViewBag.CurrentPoints = userCourse.CurrentPoints;
 			ViewBag.MaxPoints = TestController.QUESTION_COUNT_PER_TEST * _context.Tests.Where(t => t.CourseId == userCourse.CourseId).Count();
 

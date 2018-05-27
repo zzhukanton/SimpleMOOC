@@ -3,7 +3,8 @@
 	ViewBag.Title = "FinalTest";
 }
 
-<h2>Финальный тест по курсу @ViewBag.CourseTitle</h2>
+<h2>Финальный тест по курсу <u>@Html.ActionLink(ViewBag.CourseTitle as string, "Course", "Course", new { id = (int)ViewBag.CourseId }, new { }) </u></h2>
+<p style="margin-top: 40px">Ниже приведен список вопросов, на которые нужно ответить, выбрав верный вариант. У каждого вопроса только один верный вариант ответа. Выбрав варианты ответа на каждый из вопросов, нажмите на "Завершить тест" внизу страницы.</p>
 
 @using (Html.BeginForm("VerifyFinalTest", "Test", FormMethod.Post))
 {
@@ -18,7 +19,8 @@
 				@Html.RadioButtonFor(t => t.Questions[i].SelectedAnswer, answer.AnswerId, new { id = answer.AnswerId }) @answer.Title
 			</div>
 		}
+		<hr />
 	}
 
-	<input type="submit" value="Завершить финальный тест" class="btn btn-default" />
+	<input type="submit" value="Завершить финальный тест" class="btn btn-danger btn-lg" />
 }

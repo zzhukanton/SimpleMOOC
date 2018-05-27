@@ -60,7 +60,7 @@ namespace GeoCourse.Client.Controllers
 							Title = a.Title
 						})
 						.AsEnumerable()
-				}).ToList().GetRandomItems(5);
+				}).ToList().GetRandomItems(QUESTION_COUNT_PER_TEST);
 				var model = new TestViewModel()
 				{
 					TestId = id,
@@ -83,6 +83,7 @@ namespace GeoCourse.Client.Controllers
 			foreach (var answerId in selectedAnswerIds)
 			{
 				var answer = _context.Answers.Find(answerId);
+
 				if (answer.IsCorrect)
 					correctAnswerCount++;
 				else
@@ -124,9 +125,16 @@ namespace GeoCourse.Client.Controllers
 		{
 			var userCourse = _context.UserCourses.Find(_context.TestResults.Find(id).UserCourseId);
 			ViewBag.CourseTitle = _context.Courses.Find(userCourse.CourseId).Title;
+			ViewBag.CourseId = userCourse.CourseId;
 
-			var questions = _context.Tests.Where(t => t.CourseId == userCourse.CourseId)
-				.SelectMany(t => _context.Questions.Where(q => q.TestId == t.TestId).ToList().GetRandomItems(3)).ToList();
+			var questions = new List<Question>();
+			var courseTests = _context.Tests.Where(t => t.CourseId == userCourse.CourseId).ToList();
+			foreach (var test in courseTests)
+			{
+				var questionss = _context.Questions.Where(q => q.TestId == test.TestId).ToList().GetRandomItems(3);
+				questions.AddRange(questionss);
+			}
+			//
 
 			var testViewModel = new TestViewModel()
 			{
@@ -166,6 +174,7 @@ namespace GeoCourse.Client.Controllers
 			var courseId = _context.Tests.Find(_context.Questions.Find(anyQuestionId).TestId).CourseId;
 			var course = _context.Courses.Find(courseId);
 			ViewBag.CourseTitle = course.Title;
+			ViewBag.CourseId = course.CourseId;
 			ViewBag.CourseRequiredPercentage = (double)course.RequiredPoints / 100;
 
 			var userId = Guid.Parse(User.Identity.GetUserId());
@@ -182,7 +191,7 @@ namespace GeoCourse.Client.Controllers
 			var all = selectedAnswerIds.Count();
 			ViewBag.All = all;
 			var testResults = _context.TestResults.Where(tr => tr.UserCourseId == userCourse.UserCourseId && tr.TestId != null).ToList();
-			var testResultsScore = (double)testResults.Sum(tr => tr.PointCount) / (testResults.Count * 5);
+			var testResultsScore = (double)testResults.Sum(tr => tr.PointCount) / (testResults.Count * QUESTION_COUNT_PER_TEST);
 			ViewBag.TestResults = testResults;
 			ViewBag.Tests = _context.Tests.Where(t => t.CourseId == course.CourseId).ToList();
 			ViewBag.FinalPercentage = (0.6 * correctAnswerCount / all + 0.4 * testResultsScore) * 100;

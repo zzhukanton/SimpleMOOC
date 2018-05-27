@@ -3,25 +3,56 @@
 	ViewBag.Title = "FinalTestResult";
 }
 
-<h2>Финальный тест по курсу @ViewBag.CourseTitle завершен.</h2>
-<h3>Результат финального теста: @ViewBag.Correct / @ViewBag.All (@((double)ViewBag.Correct/ViewBag.All * 100)%)</h3>
+<h2>Финальный тест по курсу <u>@Html.ActionLink(ViewBag.CourseTitle as string, "Course", "Course", new { id = (int)ViewBag.CourseId }, new { }) </u> завершен.</h2>
+<h3>Результат финального теста: <span style="color: chocolate"> @ViewBag.Correct </span>/ @ViewBag.All (<span style="color: chocolate">@((double)ViewBag.Correct/ViewBag.All * 100)%</span>)</h3>
 
 <h3>Общая статистика по курсу:</h3>
-@for (int i = 0; i < ViewBag.Tests.Count; i++)
+
+<div class="col-md-6">
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<td><b>Раздел</b></td>
+				<td><b>Баллы</b></td>
+				<td><b>Процент</b></td>
+			</tr>
+		</thead>
+		<tbody>
+			@for (int i = 0; i < ViewBag.Tests.Count; i++)
+			{
+				<tr>
+					<td>@ViewBag.Tests[i].Chapter</td>
+					<td>@ViewBag.TestResults[i].PointCount / 5 </td>
+					<td>@((double)ViewBag.TestResults[i].PointCount / 5 * 100)%</td>
+				</tr>
+			}
+			<tr><td><b>Общий результат:</b> </td><td><span style="color: chocolate">@ViewBag.CurrentPoints</span> / @ViewBag.MaxPoints</td></tr>
+		</tbody>
+	</table>
+
+</div>
+
+
+@*@for (int i = 0; i < ViewBag.Tests.Count; i++)
 {
 	<p>@ViewBag.Tests[i].Chapter - @ViewBag.TestResults[i].PointCount / 5 (@((double)ViewBag.TestResults[i].PointCount/5 * 100)%)</p>
-}
+}*@
 
-<h2>Итоговая оценка курса: @ViewBag.FinalPercentage %</h2>
+<h2>Итоговая оценка курса: <span style="color: chocolate; font-size: large"> @(Math.Round((double)ViewBag.FinalPercentage, 2)) % </span></h2>
 
 @if (ViewBag.FinalPercentage > ViewBag.CourseRequiredPercentage)
 {
-	<p>Поздравляем, вы прошли данный курс!</p>
+	<div id="successful">
+		<p class="text-success">Поздравляем, вы прошли данный курс!</p>
+	</div>
+	
 }
 else
 {
-	<p>К сожалению, вашей оценки недостаточно, чтобы засчитать данный курс.</p>
+	<div id="failed">
+		<p>К сожалению, вашей оценки недостаточно, чтобы засчитать данный курс.</p>
+	</div>
 }
 
-@Html.ActionLink("Вернуться на главную", "Index", "Home")
+<u>@Html.ActionLink("Вернуться на главную", "Index", "Home")</u>
 
