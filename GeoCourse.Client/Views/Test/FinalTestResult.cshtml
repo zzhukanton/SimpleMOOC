@@ -34,17 +34,18 @@
 </div>
 
 <h2>Итоговая оценка курса: <span style="color: chocolate"> @(Math.Round((double)ViewBag.FinalPercentage, 2)) % </span></h2>
+<small>Итоговая оценка рассчитывается по формуле <code>M = A * 0.4 + B * 0.6</code>, где <code>A</code> - процент прохождения тестов по разделам, <code>B</code> - процент прохождения финального теста.</small>
 
 @if (ViewBag.FinalPercentage > ViewBag.CourseRequiredPercentage)
 {
-	<div id="successful">
+	<div class="successful" style="margin-top: 20px">
 		<p class="text-success">Поздравляем, вы прошли данный курс!</p>
 	</div>
 	
 }
 else
 {
-	<div id="failed">
+	<div class="failed" style="margin-top: 20px">
 		<p>К сожалению, вашей оценки недостаточно, чтобы засчитать данный курс.</p>
 	</div>
 }

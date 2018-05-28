@@ -27,7 +27,7 @@ namespace GeoCourse.Client.Controllers
 
 		public FileStreamResult LoadPdf(string path)
 		{
-			FileStream fs = new FileStream($@"{path}", FileMode.Open, FileAccess.Read);
+			FileStream fs = new FileStream($@"{Server.MapPath(path)}", FileMode.Open, FileAccess.Read);
 			return File(fs, "application/pdf");
 		}
 

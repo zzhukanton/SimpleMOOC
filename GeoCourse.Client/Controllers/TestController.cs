@@ -13,7 +13,7 @@ namespace GeoCourse.Client.Controllers
     public class TestController : Controller
     {
 		// 7 questions
-		public const int QUESTION_COUNT_PER_TEST = 5;
+		public const int QUESTION_COUNT_PER_TEST = 7;
 		private ApplicationDbContext _context;
 
 		public TestController()
@@ -175,7 +175,7 @@ namespace GeoCourse.Client.Controllers
 			var course = _context.Courses.Find(courseId);
 			ViewBag.CourseTitle = course.Title;
 			ViewBag.CourseId = course.CourseId;
-			ViewBag.CourseRequiredPercentage = (double)course.RequiredPoints / 100;
+			ViewBag.CourseRequiredPercentage = (double)course.RequiredPoints;
 
 			var userId = Guid.Parse(User.Identity.GetUserId());
 			var userCourse = _context.UserCourses.FirstOrDefault(uc => uc.CourseId == course.CourseId && uc.UserId == userId);

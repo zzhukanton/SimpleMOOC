@@ -3,13 +3,15 @@
     ViewBag.Title = "Verify";
 }
 
-<h2>Результат: <span style="color: chocolate"> @ViewBag.Percent % </span></h2>
+<h2>Результат: <span style="color: chocolate"> @Math.Round(ViewBag.Percent, 2)% </span></h2>
 <h3>Верных ответов: <span style="color: chocolate"> @ViewBag.CorrectAnswerCount </span> из @ViewBag.AnswerCount</h3>
 
 <div class="row custom-row">
 	@if (ViewBag.FailedQuestions.Count == 0)
 	{
-		<p>Вы ответили верно на все вопросы!</p>
+		<div class="successful">
+			<p>Вы ответили верно на все вопросы!</p>
+		</div>
 	}
 	else
 	{

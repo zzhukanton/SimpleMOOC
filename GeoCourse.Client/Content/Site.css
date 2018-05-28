@@ -68,16 +68,20 @@ h2.popular {
 	padding-left: 30px;
 }
 
-#successful {
+.successful {
 	background: #dff0d8;
 	border-radius: 10px;
 	padding-left: 20px;
+	font-size: large;
+	text-align: center;
 }
 
-#failed {
+.failed {
 	background: #f2dede;
 	border-radius: 10px;
 	padding-left: 20px;
+	font-size: large;
+	text-align: center;
 }
 
 .navigation {

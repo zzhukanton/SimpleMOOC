@@ -4,8 +4,11 @@
 
 <!-- Jumbotron Header -->
 <header class="jumbotron hero-spacer">
-	<h1>Добро пожаловать!</h1>
-	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
+	<h1>Приветствуем на GeoCourse!</h1>
+	<p>
+		Мы создаем и продвигаем элемент системы геологического образования в России, который будет способствовать повышению доступности и качества образования.
+		Все курсы, размещенные на Платформе, доступны бесплатно и без формальных требований к базовому уровню образования.
+	</p>
 	<p>
 		@Html.ActionLink("Показать все курсы", "All", "Home", new { }, new { @class = "btn btn-primary" })
 	</p>
@@ -15,12 +18,12 @@
 <div class="row text-center">
 	@foreach (var course in ViewBag.PopularCourses)
 	{
-		<div class="col-md-3 col-sm-6 hero-feature">
+		<div class="col-md-4 col-sm-6 hero-feature">
 			<div class="thumbnail">
-				<img src="@course.PicturePath" alt="">
+				<img src="@course.PicturePath" class="img-responsive text-center" alt="">
 				<div class="caption">
 					<h3>@course.Title</h3>
-					<p>@((course.Description as string).Substring(0, 102) + "...")</p>
+					<p>@( (course.Description as string).Length < 102 ? (course.Description as string) : (course.Description as string).Substring(0, 102) + "...")</p>
 					<p>
 						@Html.ActionLink("Узнать подробнее", "Course", "Course", new { id = course.CourseId }, new { @class = "btn btn-primary" })
 					</p>
@@ -30,38 +33,13 @@
 	}
 
 	<!--Here some fake data-->
-	<div class="col-md-3 col-sm-6 hero-feature">
-		<div class="thumbnail">
-			<img src="http://placehold.it/800x500" alt="">
-			<div class="caption">
-				<h3>Минералы</h3>
-				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
-				<p>
-					<a href="#" class="btn btn-primary">Узнать подробнее</a>
-				</p>
-			</div>
-		</div>
-	</div>
 
-	<div class="col-md-3 col-sm-6 hero-feature">
+	<div class="col-md-4 col-sm-6 hero-feature">
 		<div class="thumbnail">
-			<img src="http://placehold.it/800x500" alt="">
+			<img src="~/Content/TestCourse/test1.jpg" alt="">
 			<div class="caption">
-				<h3>Минералы</h3>
-				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
-				<p>
-					<a href="#" class="btn btn-primary">Узнать подробнее</a>
-				</p>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-3 col-sm-6 hero-feature">
-		<div class="thumbnail">
-			<img src="http://placehold.it/800x500" alt="">
-			<div class="caption">
-				<h3>Минералы</h3>
-				<p>Пройдя этот курс, вы получите базовые знания по минералам и узнаете много нового и интересного.</p>
+				<h3>Современная добывающая промышленность в мире</h3>
+				<p>Пройдя этот курс, вы узнаете о текущем состоянии мировой добывающей промышленности.</p>
 				<p>
 					<a href="#" class="btn btn-primary">Узнать подробнее</a>
 				</p>
@@ -71,5 +49,5 @@
 </div>
 
 <div class="row text-center custom-row">
-	@Html.ActionLink("Показать все курсы", "All", "Home", new { }, new { @class = "btn btn-primary" })
+	@Html.ActionLink("Показать все курсы", "All", "Home", new { }, new { @class = "btn btn-primary btn-success btn-lg" })
 </div>
