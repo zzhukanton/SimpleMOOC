@@ -60,7 +60,7 @@ namespace GeoCourse.Client.Controllers
 							AttemptProgress = $"{currentAttempts}/{maxAttemptes}",
 							TestProgress = $"{testTried}/{testResults.Count}",
 							RequiredPercent = $"{course.RequiredPoints}%",
-							FinalTestResult = uc.DateCompleted == null ? "Ещё не пройден" : $"{_context.TestResults.FirstOrDefault(tr => tr.TestId == null && tr.UserCourseId == uc.UserCourseId).PointCount}/{testResults.Count * 3}%",
+							FinalTestResult = uc.DateCompleted == null ? "Ещё не пройден" : $"{_context.TestResults.FirstOrDefault(tr => tr.TestId == null && tr.UserCourseId == uc.UserCourseId).PointCount}/{testResults.Count * 3}",
 							FinalCourseScore = uc.IsCompleted.HasValue ? $"{uc.FinalCourseScore}" : "Курс еще не завершен"
 						};
 					}).ToList()
