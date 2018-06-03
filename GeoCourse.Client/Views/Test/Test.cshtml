@@ -1,12 +1,8 @@
 ﻿@model GeoCourse.Client.ViewModels.TestViewModel
-@{
-	
-}
 
 <h2>Тест по главе: <u>@Html.ActionLink(ViewBag.Title as string, "Chapter", "Course", new { id = Model.TestId }, new { })</u></h2>
 
 <p style="margin-top: 40px">Ниже приведен список вопросов, на которые нужно ответить, выбрав верный вариант. У каждого вопроса только один верный вариант ответа. Выбрав варианты ответа на каждый из вопросов, нажмите на "Завершить тест" внизу страницы.</p>
-
 
 @if (ViewBag.Blocked)
 {
